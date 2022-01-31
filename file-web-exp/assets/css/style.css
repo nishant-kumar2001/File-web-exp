@@ -207,6 +207,12 @@ a.btn-customized-4.btn-customized-light.btn.btn-primary:not(:disabled):not(.disa
 }
 
 
+.upload input {
+    position:absolute;
+    bottom:30px;
+    right: 30px;;
+	width: 2cm;
+}
 
 
 

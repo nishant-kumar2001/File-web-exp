@@ -58,74 +58,9 @@ jQuery(document).ready(function() {
 			$('html, body').stop().animate({scrollTop: 0}, 1000);
 		}
 	});
-	/* make the active menu item change color as the page scrolls up and down */
-	/* we add 2 waypoints for each direction "up/down" with different offsets, because the "up" direction doesn't work with only one waypoint */
-	$('.section-container').waypoint(function(direction) {
-		if (direction === 'down') {
-			$('.menu-elements li').removeClass('active');
-			$('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
-			//console.log(this.element.id + ' hit, direction ' + direction);
-		}
-	},
-	{
-		offset: '0'
-	});
-	$('.section-container').waypoint(function(direction) {
-		if (direction === 'up') {
-			$('.menu-elements li').removeClass('active');
-			$('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
-			//console.log(this.element.id + ' hit, direction ' + direction);
-		}
-	},
-	{
-		offset: '-5'
-	});
-
-    /*
-        Background slideshow
-    */
-	$('.top-content').backstretch("assets/img/backgrounds/1.jpg");
-    $('.section-4-container').backstretch("assets/img/backgrounds/2.jpg");
-    $('.section-6-container').backstretch("assets/img/backgrounds/1.jpg");
-    
-    /*
-	    Wow
-	*/
-	new WOW().init();
-	
-	/*
-	    Contact form
-	*/
-	$('.section-6-form form input[type="text"], .section-6-form form textarea').on('focus', function() {
-		$('.section-6-form form input[type="text"], .section-6-form form textarea').removeClass('input-error');
-	});
-	$('.section-6-form form').submit(function(e) {
-		e.preventDefault();
-	    $('.section-6-form form input[type="text"], .section-6-form form textarea').removeClass('input-error');
-	    var postdata = $('.section-6-form form').serialize();
-	    $.ajax({
-	        type: 'POST',
-	        url: 'assets/contact.php',
-	        data: postdata,
-	        dataType: 'json',
-	        success: function(json) {
-	            if(json.emailMessage != '') {
-	                $('.section-6-form form .contact-email').addClass('input-error');
-	            }
-	            if(json.subjectMessage != '') {
-	                $('.section-6-form form .contact-subject').addClass('input-error');
-	            }
-	            if(json.messageMessage != '') {
-	                $('.section-6-form form textarea').addClass('input-error');
-	            }
-	            if(json.emailMessage == '' && json.subjectMessage == '' && json.messageMessage == '') {
-	                $('.section-6-form form').fadeOut('fast', function() {
-	                    $('.section-6-form').append('<p>Thanks for contacting us! We will get back to you very soon.</p>');
-	                    $('.section-6-container').backstretch("resize");
-	                });
-	            }
-	        }
-	    });
-	});
-	
 });
+
+function AddDoc(){
+	var i = 0;
+	console.log(++i);
+}

@@ -1,0 +1,22 @@
+{
+  "name": "webdav-server",
+  "version": "1.0.0",
+  "description": "Backend for WebDAV application",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+    "request": "^2.88.2",
+    "webdav": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.14"
+  }
+}

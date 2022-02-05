@@ -1,74 +1,96 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
+<head>
 
-		<!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <title>File-web-exp</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/css/style.css">
+	<title>File-web-exp</title>
 
-        
+	<!-- CSS -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/style.css">
 
-    </head>
 
-    <body>
 
-		<!-- Wrapper -->
-    	<div class="wrapper">
+</head>
 
-			<!-- Sidebar -->
-			<nav class="sidebar">
-				
-				<!-- close sidebar menu -->
-				<div class="dismiss">
-					<i class="fas fa-arrow-left"></i>
+<body style="overflow-x: hidden; width: 100%;">
+	<div class="position-fixed shadow-sm"
+	id = "button"
+		style="z-index: 5; bottom: 5em; right: 5em; background-color: rgb(182, 200, 206);">
+		<button class="btn" type="button">+</button>
+	</div>
+	<div class="row">
+		<div class="col-sm text-left border">
+			<div class="row">
+				<div class="col-1">
+					<div class="content m-2">
+						//Logo
+					</div>
+					<div class="m-2">
+						<button class="btn" type="menu">
+							<i class="fas fa-bars m-2"></i>
+						</button>
+					</div>
 				</div>
-				
-				<div class="logo">
-					<h3><a href="index.html"></a></h3>
-				</div>
-				
-				<div>list of contents</div>
-				
-				<div class="to-top">
-					<a class="btn btn-primary btn-customized-3" href="#" role="button">
-	                    <i class="fas fa-arrow-up"></i> Top
-	                </a>
-				</div>
-				
-				<div class="dark-light-buttons">
-					<a class="btn btn-primary btn-customized-4 btn-customized-dark" href="#" role="button">Dark</a>
-					<a class="btn btn-primary btn-customized-4 btn-customized-light" href="#" role="button">Light</a>
-				</div>
-			
-			</nav>
-			<!-- End sidebar -->
+			</div>
+		</div>
+	</div>
+	<div class="row p-3">
+		<div class="container">
+			<div class="row" id="viewer">
+			</div>
+		</div>
+	</div>
+	</div>
 
-			<!-- Content -->
-			<div class="content">
-			
-				<!-- open sidebar menu -->
-				<a class="btn btn-primary btn-customized open-menu" href="#" role="button">
-                    <i class="fas fa-align-left"></i> <span>Menu</span>
-                </a>
-	        
-	        </div>
-           
-        </div>
-        <!-- End wrapper -->
+	<!-- <div class="content border">
+		<a class="btn btn-primary btn-customized open-menu" href="#" role="button">
+			<i class="fas fa-align-left"></i> <span>Menu</span>
+		</a>
+	</div> -->
 
-        <!-- Javascript -->
-		<script src="assets/js/jquery-3.3.1.min.js"></script>
-        <script src="assets/js/scripts.js"></script>
+	<!-- Javascript -->
+	<script>
+		var viewer = document.getElementById("viewer");
+		var button = document.getElementById("button");
 
-    </body>
+		button.onclick = clickAdd;
+
+		for (var i = 1; i < 25; i++) {
+			let card = document.createElement('div');
+			card.className = "col-md col-lg-2 col-xl-3 py-2";
+
+			let frame = document.createElement('div');
+			frame.className = "card shadow-sm";
+
+			let block = document.createElement("div");
+			block.className = "card-block";
+			block.textContent = `File ${i}`;
+
+			frame.appendChild(block);
+			card.appendChild(frame);
+			viewer.appendChild(card);
+		}
+
+		function clickAdd() {
+			// add floating text field for creating directory
+			button.appendChild();
+			console.log("Hello");
+			alert("Hello");
+		}
+	</script>
+
+	<script src="assets/js/jquery-3.3.1.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+
+</body>
 
 </html>

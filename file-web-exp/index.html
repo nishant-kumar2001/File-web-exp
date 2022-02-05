@@ -10,7 +10,8 @@
 	<title>File-web-exp</title>
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap"> -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -22,17 +23,15 @@
 </head>
 
 <body style="overflow-x: hidden; width: 100%;">
-	<div class="position-fixed shadow-sm"
-	id = "button"
-		style="z-index: 5; bottom: 5em; right: 5em; background-color: rgb(182, 200, 206);">
-		<button class="btn" type="button">+</button>
+	<div class="position-fixed shadow-sm" id="button" style="z-index: 5; bottom: 5em; right: 5em;">
+		<button class="btn" style="background-color: rgb(182, 200, 206);" type="button">+</button>
 	</div>
 	<div class="row">
 		<div class="col-sm text-left border">
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<div class="content m-2">
-						//Logo
+						File-web-explorer Logo
 					</div>
 					<div class="m-2">
 						<button class="btn" type="menu">
@@ -44,6 +43,19 @@
 		</div>
 	</div>
 	<div class="row p-3">
+		<ul class="dropdown-menu shadow-lg position-absolute border-0" role="menu"
+			style="display: none; z-index: 5; border-radius: 10px;" id="context-menu" aria-labelledby="dropdownMenu">
+			<li class="dropdown-item p-2 text-left list-unstyled" id="newfolder">
+				<i class="m-2 material-icons" style="font-size: 18px;">create_new_folder</i>New Folder
+			<li class="divider border"></li>
+			<li class="dropdown-item p-2 text-left list-unstyled">
+				<i class="m-2 material-icons" style="font-size: 18px;">upload_file</i>File Upload
+			</li>
+			<li class="dropdown-item p-2 text-left list-unstyled">
+				<i class="m-2 material-icons" style="font-size: 18px;">drive_folder_upload</i>Folder Upload
+			</li>
+		</ul>
+
 		<div class="container">
 			<div class="row" id="viewer">
 			</div>
@@ -60,10 +72,8 @@
 	<!-- Javascript -->
 	<script>
 		var viewer = document.getElementById("viewer");
-		var button = document.getElementById("button");
 
-		button.onclick = clickAdd;
-
+		// add data from stream
 		for (var i = 1; i < 25; i++) {
 			let card = document.createElement('div');
 			card.className = "col-md col-lg-2 col-xl-3 py-2";
@@ -80,11 +90,58 @@
 			viewer.appendChild(card);
 		}
 
+		// floating action button
+		var button = document.getElementById("button");
+		button.onclick = clickAdd;
+
 		function clickAdd() {
 			// add floating text field for creating directory
 			// button.appendChild();
-			console.log("Hello");
-			alert("Hello");
+			alert("To be implemented!");
+		}
+
+		// context menu - inside viewer
+		var menu = document.getElementById("context-menu")
+		document.onclick = hideMenu;
+		document.oncontextmenu = viewerOnRightClick;
+
+		function hideMenu() {
+			menu.style.display = "none"
+		}
+
+		function viewerOnRightClick(e) {
+			e.preventDefault();
+			if (menu.style.display == "block")
+				hideMenu();
+			else {
+				menu.style.display = 'block';
+				menu.style.left = e.pageX + "px";
+				menu.style.top = e.pageY + "px";
+			}
+		}
+
+		// create folder
+		var newfolder = document.getElementById("newfolder");
+		newfolder.onclick = createFolder;
+
+		function createFolder(e) {
+			menu.style.display = "none";
+			let path = prompt("Name", "New Folder");
+			path = "/" + path;
+			const req = '{"path": "' + path + '"}';
+
+			e.preventDefault();
+			var newFolderReq = new Request("http://localhost:3001/mkdir", {
+				method: 'POST',
+				body: req,
+				headers: new Headers({ 'Content-Type': 'application/json' })
+			});
+
+			fetch(newFolderReq).then(function (res) {
+				alert("Folder " + path + " created successfully!");
+			}).catch(err => {
+				alert(`Errors: ${err}`);
+			});
 		}
 	</script>
 

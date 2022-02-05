@@ -22,6 +22,7 @@ app.get('/', async (req, res) => {
 
 app.post('/mkdir', async (req, res) => {
     const {path} = req.body;
+    console.log(`New folder request: ${path}`);
 
     await client.createDirectory(path);
     res.send(`directory ${path}`);

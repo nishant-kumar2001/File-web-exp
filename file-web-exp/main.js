@@ -22,8 +22,6 @@ function fetchData() {
             }
         }
 
-        console.log(folders);
-
         for (let i = 0; i < folders.length; i++) {
             var filename = folders[i]["filename"];
             filename = filename.substr(1);
@@ -60,7 +58,7 @@ function renderFolder(name, info) {
 // to show files
 function renderFile(name, info) {
     let card = document.createElement('div');
-    card.className = "col-sm col-lg-2 col-xl-2 py-2";
+    card.className = "col-sm col-lg-2 col-xl-2 py-2 fileClass";
 
     let frame = document.createElement('div');
     frame.className = "card shadow-none";
@@ -69,6 +67,7 @@ function renderFile(name, info) {
     block.className = "card-block";
     block.textContent = `${name}`;
 
+    frame.oncontextmenu = showFileMenu;
     frame.appendChild(block);
     card.appendChild(frame);
     viewer.appendChild(card);
@@ -86,12 +85,25 @@ function clickAdd() {
 
 // context menu - inside viewer
 var menu = document.getElementById("context-menu")
+var filemenu = document.getElementById("file-menu")
 var main = document.getElementById("main");
 document.onclick = hideMenu;
 main.oncontextmenu = viewerOnRightClick;
 
 function hideMenu() {
     menu.style.display = "none"
+    filemenu.style.display = "none"
+}
+
+function showFileMenu(e) {
+    e.preventDefault();
+    if (filemenu.style.display == "block")
+    hideMenu;
+    else {
+        filemenu.style.display = "block";
+        filemenu.style.left = e.pageX + "px";
+        filemenu.style.top = e.pageY + "px";
+    }
 }
 
 function viewerOnRightClick(e) {
@@ -132,4 +144,7 @@ function createFolder(e) {
     }
 }
 
-		// file upload
+// file download
+function download() {
+    const downloadLink = client.getFileDownloadLink("/image.png")
+}

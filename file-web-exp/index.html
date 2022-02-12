@@ -24,9 +24,11 @@
 
 <body style="overflow-x: hidden; width: 100%;">
 	<div class="position-fixed shadow-sm" id="button" style="z-index: 5; bottom: 5em; right: 5em;">
-		<button class="btn" style="background-color: rgb(182, 200, 206);" type="button">+</button>
+		<button class="btn shadow-sm" style="background-color: rgb(233, 233, 233);">
+			<i class="m-1 material-icons" style="font-size: 18px;">add</i>
+		</button>
 	</div>
-	<div class="row">
+	<div class="row pl-2 pr-2">
 		<div class="col-sm text-left border">
 			<div class="row">
 				<div class="col-2">
@@ -42,16 +44,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="row p-3">
+	<div class="row p-3" id="main" style="height: 80vh;">
 		<ul class="dropdown-menu shadow-lg position-absolute border-0" role="menu"
 			style="display: none; z-index: 5; border-radius: 10px;" id="context-menu" aria-labelledby="dropdownMenu">
 			<li class="dropdown-item p-2 text-left list-unstyled" id="newfolder">
 				<i class="m-2 material-icons" style="font-size: 18px;">create_new_folder</i>New Folder
 			<li class="divider border"></li>
-			<li class="dropdown-item p-2 text-left list-unstyled">
+			<li class="dropdown-item p-2 text-left list-unstyled" id="fileUpload">
 				<i class="m-2 material-icons" style="font-size: 18px;">upload_file</i>File Upload
 			</li>
-			<li class="dropdown-item p-2 text-left list-unstyled">
+			<li class="dropdown-item p-2 text-left list-unstyled" id="folderUpload">
 				<i class="m-2 material-icons" style="font-size: 18px;">drive_folder_upload</i>Folder Upload
 			</li>
 		</ul>
@@ -61,7 +63,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 
 	<!-- <div class="content border">
 		<a class="btn btn-primary btn-customized open-menu" href="#" role="button">
@@ -70,80 +71,7 @@
 	</div> -->
 
 	<!-- Javascript -->
-	<script>
-		var viewer = document.getElementById("viewer");
-
-		// add data from stream
-		for (var i = 1; i < 25; i++) {
-			let card = document.createElement('div');
-			card.className = "col-md col-lg-2 col-xl-3 py-2";
-
-			let frame = document.createElement('div');
-			frame.className = "card shadow-sm";
-
-			let block = document.createElement("div");
-			block.className = "card-block";
-			block.textContent = `File ${i}`;
-
-			frame.appendChild(block);
-			card.appendChild(frame);
-			viewer.appendChild(card);
-		}
-
-		// floating action button
-		var button = document.getElementById("button");
-		button.onclick = clickAdd;
-
-		function clickAdd() {
-			// add floating text field for creating directory
-			// button.appendChild();
-			alert("To be implemented!");
-		}
-
-		// context menu - inside viewer
-		var menu = document.getElementById("context-menu")
-		document.onclick = hideMenu;
-		document.oncontextmenu = viewerOnRightClick;
-
-		function hideMenu() {
-			menu.style.display = "none"
-		}
-
-		function viewerOnRightClick(e) {
-			e.preventDefault();
-			if (menu.style.display == "block")
-				hideMenu();
-			else {
-				menu.style.display = 'block';
-				menu.style.left = e.pageX + "px";
-				menu.style.top = e.pageY + "px";
-			}
-		}
-
-		// create folder
-		var newfolder = document.getElementById("newfolder");
-		newfolder.onclick = createFolder;
-
-		function createFolder(e) {
-			menu.style.display = "none";
-			let path = prompt("Name", "New Folder");
-			path = "/" + path;
-			const req = '{"path": "' + path + '"}';
-
-			e.preventDefault();
-			var newFolderReq = new Request("http://localhost:3001/mkdir", {
-				method: 'POST',
-				body: req,
-				headers: new Headers({ 'Content-Type': 'application/json' })
-			});
-
-			fetch(newFolderReq).then(function (res) {
-				alert("Folder " + path + " created successfully!");
-			}).catch(err => {
-				alert(`Errors: ${err}`);
-			});
-		}
-	</script>
+	<script src="./main.js"></script>
 
 	<script src="assets/js/jquery-3.3.1.min.js"></script>
 	<script src="assets/js/scripts.js"></script>

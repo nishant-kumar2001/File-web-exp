@@ -9,9 +9,9 @@ cd server/
 npm i
 npm test
 ```
-2. Run commands below for initial server config
+2. Follow steps below to view frontend on the browser
 ```
-cd file-web-exp/
-npm i
-#click on live server for frontend
+1. locate and open index.html
+2. download "Live Sever" VS code extension (ignore if already done)
+3. click on "live server" button to see live changes on the browser
 ```

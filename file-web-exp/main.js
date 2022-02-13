@@ -31,7 +31,7 @@ function fetchData() {
         for (let i = 0; i < files.length; i++) {
             var filename = files[i]["filename"];
             filename = filename.substr(1);
-            renderFile(filename, folders[i]);
+            renderFile(filename, files[i]);
         }
     });
 }
@@ -67,7 +67,7 @@ function renderFile(name, info) {
     block.className = "card-block";
     block.textContent = `${name}`;
 
-    frame.oncontextmenu = showFileMenu;
+    frame.addEventListener('contextmenu', (e) => showFileMenu(e, info));
     frame.appendChild(block);
     card.appendChild(frame);
     viewer.appendChild(card);
@@ -84,8 +84,8 @@ function clickAdd() {
 }
 
 // context menu - inside viewer
-var menu = document.getElementById("context-menu")
-var filemenu = document.getElementById("file-menu")
+var menu = document.getElementById("context-menu");
+var filemenu = document.getElementById("file-menu");
 var main = document.getElementById("main");
 document.onclick = hideMenu;
 main.oncontextmenu = viewerOnRightClick;
@@ -95,14 +95,22 @@ function hideMenu() {
     filemenu.style.display = "none"
 }
 
-function showFileMenu(e) {
+function showFileMenu(e, info) {
+
     e.preventDefault();
     if (filemenu.style.display == "block")
-    hideMenu;
+        hideMenu;
     else {
+        console.log(info);
         filemenu.style.display = "block";
         filemenu.style.left = e.pageX + "px";
         filemenu.style.top = e.pageY + "px";
+
+        // file-download-option
+        var downBtn = document.getElementById("fileDownload");
+        downBtn.onclick = (e) => {
+            download(info.filename);
+        }
     }
 }
 
@@ -145,6 +153,21 @@ function createFolder(e) {
 }
 
 // file download
-function download() {
-    const downloadLink = client.getFileDownloadLink("/image.png")
+function download(path) {
+    var body = JSON.stringify({ "path": path });
+
+    var downLink = new Request("http://localhost:3001/download", {
+        method: 'POST',
+        body: body,
+        headers: new Headers({ "Content-Type": "application/json" })
+    });
+    fetch(downLink).then(function (res) {
+        return res.json();
+    }).then(function (url) {
+        const link = document.createElement("a");
+        link.target = "_blank";
+        link.href = url.result;
+        link.download = url.result;
+        link.click();
+    });
 }

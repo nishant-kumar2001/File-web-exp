@@ -22,9 +22,13 @@ app.use(express.json());
 
 // application-routes
 app.get('/', async (req, res) => {
-    console.log("Content request");
-    const items = await client.getDirectoryContents("/");
-    console.log(items.length);
+    var items;
+    try {
+        items = await client.getDirectoryContents("/");
+        console.log(`Content request: ${items.length}`);
+    } catch (error) {
+        console.log(`Error fetching document`);
+    }
     res.json(items);
 });
 
@@ -40,10 +44,36 @@ app.post('/download', async (req, res) => {
     const { path } = req.body;
     console.log(`download item request: ${path}`);
 
-    const downloadLink = client.getFileDownloadLink(path)
-    res.json({result: downloadLink});
+    if (path != "" && path != null) {
+        const downloadLink = client.getFileDownloadLink(path)
+        res.json({ result: downloadLink });
+        return;
+    }
+
+    res.sendStatus(401);
 });
 
+app.post('/delete', async (req, res) => {
+    const { path } = req.body;
+
+    if (path != null && path != "") {
+        await client.deleteFile(path);
+        res.json({ result: `File/Folder ${path} successfully deleted` });
+        return;
+    }
+    res.sendStatus(401);
+});
+
+app.post('/copy', async (req, res) => {
+    const { src, dest } = req.body;
+
+    if (src != null && src != "" && dest != null && dest != "") {
+        await client.copyFile(src, dest);
+        res.json({ result: {mssg: `moved from ${src} to ${dest}`, src: src, dest: dest}} );
+        return;
+    }
+    res.sendStatus(401);
+});
 
 // start-server
 const server = app.listen(3001, () => {
@@ -52,7 +82,8 @@ const server = app.listen(3001, () => {
 
 // to kill previously enabled servers on error
 // setInterval(() => server.getConnections(
-//     (err, connections) => console.log(`${connections} connections currently open`)
+//     // (err, connections) => console.log(`${connections} connections currently open`)
+//     (err, connections) => {}
 // ), 1000);
 
 // process.on('SIGTERM', shutDown);
@@ -68,12 +99,12 @@ const server = app.listen(3001, () => {
 // function shutDown() {
 //     console.log('Received kill signal, shutting down gracefully');
 //     server.close(() => {
-//         console.log('Closed out remaining connections');
+//         // console.log('Closed out remaining connections');
 //         process.exit(0);
 //     });
 
 //     setTimeout(() => {
-//         console.error('Could not close connections in time, forcefully shutting down');
+//         // console.error('Could not close connections in time, forcefully shutting down');
 //         process.exit(1);
 //     }, 10000);
 
